@@ -1,27 +1,29 @@
 //your code here
-Particle [] lotsOfNormalP;
+Particle [] groupParticle;
 void setup()
 {
 	//your code here
 	size(600,600);
-    lotsOfNormalP = new NormalParticle[365];
-    for(int i = 0; i < lotsOfNormalP.length; i ++)
+    groupParticle = new Particle[365];
+    for(int i = 0; i < groupParticle.length; i ++)
     {
-    	lotsOfNormalP[1] = new OddballParticle();
-    	lotsOfNormalP[i] = new NormalParticle();
+    	groupParticle[i] = new NormalParticle();
     }
+    	groupParticle[0] = new OddballParticle();
+    	groupParticle[1] = new JumboParticle();
 }
 void draw()
 {
 	//your code here
 	background(0);
-	for(int i = 0; i < lotsOfNormalP.length; i++)
+	for(int i = 0; i < groupParticle.length; i++)
 	{
-		lotsOfNormalP[i].show();
-		lotsOfNormalP[i].move();		
+		groupParticle[i].show();
+		groupParticle[i].move();		
 	}
 
 }
+
 class NormalParticle implements Particle
 {
 	//your code here
@@ -36,12 +38,21 @@ class NormalParticle implements Particle
 		y = 300;
 		particleColor = color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
 		angle = Math.random()*2*Math.PI;
-		speed = Math.random()*10;
+		speed = Math.random()*3;
 	}
 	public void move()
 	{
-		x = x + Math.cos(angle)*speed;
-		y = y + Math.sin(angle)*speed;
+
+		if( mousePressed )
+		{
+			x = x - Math.cos(angle)*speed;
+			y = y - Math.sin(angle)*speed;
+		}
+		else
+		{
+			x = x + Math.cos(angle)*speed;
+			y = y + Math.sin(angle)*speed;		
+		}
 	}
 	public void show()
 	{
@@ -64,19 +75,17 @@ class OddballParticle implements Particle //uses an interface
 	double y;
 	int particleColor;
 	double angle;
-	double speed;
 	OddballParticle()
 	{
 		x = 300;
 		y = 300;
 		particleColor = color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
 		angle = Math.random()*2*Math.PI;
-		speed = Math.random()*10;
 	}
 	public void move()
 	{
-		x = x + (Math.random()*3)-1;
-		y = y + (Math.random()*3)-1;
+		x = x + (int)(Math.random()*9)-4;
+		y = y + (int)(Math.random()*9)-4;
 	}
 	public void show()
 	{
@@ -86,8 +95,15 @@ class OddballParticle implements Particle //uses an interface
 	}	
 	//your code here
 }
-class JumboParticle //uses inheritance
+class JumboParticle extends NormalParticle//uses inheritance
 {
 	//your code here
+	public void show()
+	{
+		noStroke();
+		fill(particleColor);
+		ellipse((float)x,(float)y,75,75);		
+	}
+
 }
 
