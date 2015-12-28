@@ -4,7 +4,7 @@ void setup()
 {
 	//your code here
 	size(600,600);
-    groupParticle = new Particle[365];
+    groupParticle = new Particle[500];
     for(int i = 0; i < groupParticle.length; i ++)
     {
     	groupParticle[i] = new NormalParticle();
@@ -29,6 +29,7 @@ class NormalParticle implements Particle
 	//your code here
 	double x;
 	double y;
+	double size;
 	int particleColor;
 	double angle;
 	double speed;
@@ -36,13 +37,17 @@ class NormalParticle implements Particle
 	{
 		x = 300;
 		y = 300;
+		size = Math.random()*7+3;
 		particleColor = color((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
 		angle = Math.random()*2*Math.PI;
-		speed = Math.random()*3;
+		speed = Math.random()*2+1;
 	}
 	public void move()
 	{
-
+		if(x > width || x < 0 || y > height || y < 0){
+			x = mouseX;
+			y = mouseY;
+		}
 		if( mousePressed )
 		{
 			x = x - Math.cos(angle)*speed;
@@ -58,7 +63,7 @@ class NormalParticle implements Particle
 	{
 		noStroke();
 		fill(particleColor);
-		ellipse((float)x,(float)y,15,15);
+		ellipse((float)x,(float)y,(float)size,(float)size);
 	}
 
 }
@@ -102,7 +107,7 @@ class JumboParticle extends NormalParticle//uses inheritance
 	{
 		noStroke();
 		fill(particleColor);
-		ellipse((float)x,(float)y,75,75);		
+		ellipse((float)x,(float)y,50,50);		
 	}
 
 }
